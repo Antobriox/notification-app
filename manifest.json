@@ -1,0 +1,16 @@
+{
+    "name": "Push Notifications Example",
+    "short_name": "PushNotif",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "description": "Ejemplo de notificaciones push en la web",
+    "icons": [
+      {
+        "src": "icon.png",
+        "type": "image/png",
+        "sizes": "192x192"
+      }
+    ]
+  }
+   
