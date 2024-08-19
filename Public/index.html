@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Push Notifications Example</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Notificaciones Push</h1>
+        <button id="enable-notifications">Habilitar Notificaciones</button>
+    </div>
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-messaging.js"></script>
+    <script>
+        // Configuración de Firebase - Usa el código que te dio Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyAmW9nWl5iFUvD95IRA9N466LduvmvRzqw",
+            authDomain: "notificacio-web.firebaseapp.com",
+            projectId: "notificacio-web",
+            storageBucket: "notificacio-web.appspot.com",
+            messagingSenderId: "228034334767",
+            appId: "1:228034334767:web:68ec8986acd8baf648f6da",
+            measurementId: "G-P41YX7WHGC"
+        };
+
+        // Inicializa Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const messaging = firebase.messaging();
+
+        // Solicitar permiso para notificaciones y obtener token
+        document.getElementById('enable-notifications').addEventListener('click', () => {
+            messaging.requestPermission()
+            .then(() => {
+                console.log('Permiso concedido');
+                return messaging.getToken();
+            })
+            .then((token) => {
+                console.log('Token FCM:', token);
+                // Aquí puedes enviar el token al servidor para registrarlo
+            })
+            .catch((error) => {
+                console.error('Error al obtener el token', error);
+            });
+        });
+
+        // Manejar mensajes push cuando la página está en primer plano
+        messaging.onMessage((payload) => {
+            console.log('Mensaje recibido. ', payload);
+            // Personaliza la notificación aquí
+            const notificationOptions = {
+                body: payload.notification.body,
+                icon: payload.notification.icon,
+            };
+
+            new Notification(payload.notification.title, notificationOptions);
+        });
+    </script>
+</body>
+</html>
